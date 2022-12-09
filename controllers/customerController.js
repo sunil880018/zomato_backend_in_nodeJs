@@ -10,19 +10,9 @@ const createCustomer = async (req, res) => {
   };
   try {
     const responseCustomer = await Customer.create(customer);
-    if (!responseCustomer) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
-    }
-    const responseWallet = await Wallet.create({
+    await Wallet.create({
       customerId: responseCustomer._id,
     });
-    if (!responseWallet) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
-    }
     return res.status(StatusCodes.CREATED).send({ data: responseCustomer });
   } catch (err) {
     return res
@@ -34,9 +24,6 @@ const createCustomer = async (req, res) => {
 const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
-    if (!customers) {
-      return res.status(StatusCodes.NO_CONTENT).send({});
-    }
     return res.status(StatusCodes.OK).send({ customers: customers });
   } catch (err) {
     return res
@@ -46,12 +33,9 @@ const getCustomers = async (req, res) => {
 };
 
 const getCustomerByName = async (req, res) => {
+  const customerName = req.query.name;
   try {
-    const customerName = req.query.name;
     const customer = await Customer.findOne({ customerName: customerName });
-    if (!customer) {
-      return res.status(StatusCodes.NO_CONTENT).send({});
-    }
     return res.status(StatusCodes.OK).send({ customer: customer });
   } catch (err) {
     return res

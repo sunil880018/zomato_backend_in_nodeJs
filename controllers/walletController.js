@@ -5,11 +5,6 @@ const getWalletBalanceController = async (req, res) => {
   const customerId = req.query.id;
   try {
     const wallet = await Wallet.findOne({ customerId: customerId });
-    if (!wallet) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
-    }
     return res.status(StatusCodes.OK).send({ wallet: wallet });
   } catch (error) {
     return res
@@ -31,11 +26,6 @@ const updateWalletBalanceController = async (req, res) => {
     const customerWallet = await Wallet.findOne({
       customerId: walletDetails.customerId,
     });
-    if (!customerWallet) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
-    }
 
     walletDetails.walletBalance =
       parseFloat(walletDetails.walletBalance) +
@@ -45,11 +35,6 @@ const updateWalletBalanceController = async (req, res) => {
       { $set: walletDetails },
       { new: true }
     );
-    if (!walletBalanceUpdated) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
-    }
     return res
       .status(StatusCodes.ACCEPTED)
       .send({ wallet: walletBalanceUpdated });
