@@ -28,4 +28,16 @@ const getCustomers = async (req, res) => {
   }
 };
 
-export { createCustomer, getCustomers };
+const getCustomerByName = async (req, res) => {
+  try {
+    const customerName = req.params.name;
+    const customer = await Customer.findOne({ customerName: customerName});
+    return res.status(StatusCodes.OK).send({ customer: customer });
+  } catch (err) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+  }
+};
+
+export { createCustomer, getCustomers , getCustomerByName };
