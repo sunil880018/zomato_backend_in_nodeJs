@@ -9,25 +9,46 @@ WORKDIR /app
 
 
 
-# this is equal to COPY package.json /app
-# package.json contains all the libraries name or dependencies name which you have used in the project
-COPY package.json  .   
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
 
+RUN npm install
 
-# install all the dependencies contains in package.json file , this is build time
-# RUN npm install --only=production  # for the production
-RUN npm install        
+# If you are building your code for production
+RUN npm ci --only=production
 
+# Bundle app source into container directory
+COPY . .
 
-# copy all the folders and files of the application into the docker image or docker container 
-COPY . ./             
-
-
-
-# container run on 3000 port
-EXPOSE 3000           
+EXPOSE 8080
+CMD [ "node", "main.js" ]
 
 
-# commands to run the application
-CMD ["npm ","start"]      
+# building image
+# 1.docker build . -t <your username>/node-web-app
+
+# see docker images
+# 2. docker images
+
+# run the image
+# 3.docker run -p 49160:8080 -d <your username>/node-web-app
+
+
+# Get container ID
+# docker ps
+
+# Print app output
+#  docker logs <container id>
+
+# Example
+# Running on http://localhost:8080
+
+# Enter the container
+# docker exec -it <container id> /bin/bash
+
+
+# Kill our running container
+# docker kill <container id>
