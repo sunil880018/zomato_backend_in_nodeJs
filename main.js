@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // customer route
 app.post("/customer", createCustomer);
 app.get("/customers", getCustomers);
-app.get("/customer/name", getCustomerByName);
+app.get("/customer", getCustomerByName);
 
 // billing route
 app.get("/customer/bill/:customerId", getCustomerBill);

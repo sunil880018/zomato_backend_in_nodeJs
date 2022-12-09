@@ -47,7 +47,7 @@ const getCustomers = async (req, res) => {
 
 const getCustomerByName = async (req, res) => {
   try {
-    const customerName = req.params.name;
+    const customerName = req.query.name;
     const customer = await Customer.findOne({ customerName: customerName });
     if (!customer) {
       return res.status(StatusCodes.NO_CONTENT).send({});
