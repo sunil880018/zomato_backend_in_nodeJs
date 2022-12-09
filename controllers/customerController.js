@@ -20,6 +20,9 @@ const createCustomer = async (req, res) => {
 const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
+    if (!customers) {
+      return res.status(StatusCodes.NO_CONTENT).send({});
+    }
     return res.status(StatusCodes.OK).send({ customers: customers });
   } catch (err) {
     return res
@@ -31,7 +34,10 @@ const getCustomers = async (req, res) => {
 const getCustomerByName = async (req, res) => {
   try {
     const customerName = req.params.name;
-    const customer = await Customer.findOne({ customerName: customerName});
+    const customer = await Customer.findOne({ customerName: customerName });
+    if (!customer) {
+      return res.status(StatusCodes.NO_CONTENT).send({});
+    }
     return res.status(StatusCodes.OK).send({ customer: customer });
   } catch (err) {
     return res
@@ -40,4 +46,4 @@ const getCustomerByName = async (req, res) => {
   }
 };
 
-export { createCustomer, getCustomers , getCustomerByName };
+export { createCustomer, getCustomers, getCustomerByName };

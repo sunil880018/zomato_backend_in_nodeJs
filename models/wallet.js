@@ -4,6 +4,7 @@ const walletSchema = new Schema(
     walletBalance: {
       type: Schema.Types.Decimal128,
       required: true,
+      default: 0.0,
     },
     customerId: {
       type: Schema.Types.ObjectId,
