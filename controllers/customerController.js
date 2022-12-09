@@ -1,5 +1,6 @@
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
 import Customer from "../models/customers.js";
+import Wallet from "../models/wallet.js";
 
 const createCustomer = async (req, res) => {
   const customer = {
@@ -9,6 +10,19 @@ const createCustomer = async (req, res) => {
   };
   try {
     const responseCustomer = await Customer.create(customer);
+    if (!responseCustomer) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+    }
+    const responseWallet = await Wallet.create({
+      customerId: responseCustomer._id,
+    });
+    if (!responseWallet) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+    }
     return res.status(StatusCodes.CREATED).send({ data: responseCustomer });
   } catch (err) {
     return res

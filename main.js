@@ -7,7 +7,10 @@ import {
   getCustomerByName,
   getCustomers,
 } from "./controllers/customerController.js";
-import { getCustomerBill } from "./controllers/billController.js";
+import {
+  generateCustomerBill,
+  getCustomerBill,
+} from "./controllers/billController.js";
 import {
   getWalletBalanceController,
   updateWalletBalanceController,
@@ -20,15 +23,16 @@ const PORT = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// cutomer route
+// customer route
 app.post("/customer", createCustomer);
 app.get("/customers", getCustomers);
 app.get("/customer/name", getCustomerByName);
 
-// billing
+// billing route
 app.get("/customer/bill/:customerId", getCustomerBill);
+app.post("/customer/bill", generateCustomerBill);
 
-// wallet
+// wallet route
 app.get("/wallet", getWalletBalanceController);
 app.put("/wallet/:id", updateWalletBalanceController);
 

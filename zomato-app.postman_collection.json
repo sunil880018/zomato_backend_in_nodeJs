@@ -1,0 +1,101 @@
+{
+  "info": {
+    "_postman_id": "06a885f5-eb64-4386-a3f7-4f637bf57f03",
+    "name": "zomato-app",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "14112596"
+  },
+  "item": [
+    {
+      "name": "localhost:3000/customers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "localhost:3000/customers"
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:3000/customer",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\":\"sunil\",\r\n    \"mobile\":\"919876545712\",\r\n    \"address\":{\r\n        \"city\":\"jamshedpur\",\r\n        \"state\":\"Jharkhand\",\r\n        \"pincode\":453435\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "localhost:3000/customer"
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:3000/wallet/6392f9ac0e207af5a6b6dba2",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "id",
+            "value": "\"6392f9ac0e207af5a6b6dba2\"",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"balance\":45\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "localhost:3000/wallet/63930c8f56b1d665a382aece"
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:3000/wallet/6392f9ac0e207af5a6b6dba2",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "id",
+            "value": "\"6392f9ac0e207af5a6b6dba2\"",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"balance\":45\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/wallet?id=63930c8f56b1d665a382aece",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["wallet"],
+          "query": [
+            {
+              "key": "id",
+              "value": "63930c8f56b1d665a382aece"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

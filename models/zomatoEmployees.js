@@ -8,10 +8,8 @@ const zomatoEmployeeSchema = new Schema(
     },
     mobile: {
       type: String,
-      match: /^[0-9]{10}$/,
+      match: /^[0-9]{12}$/,
       required: true,
-      minLength: 12,
-      maxLength: 12,
     },
     rating: {
       type: Schema.Types.Decimal128,
