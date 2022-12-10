@@ -21,6 +21,7 @@ import cors from "cors";
 import { apiRequestLimiter } from "./middleware/apiRateLimiter.js";
 import { whitelist } from "./utils/ipWhiteList.js";
 import { getCustomerCache } from "./middleware/redisCache.js";
+import { getFoodById, getFoodMenu } from "./controllers/foodContoller.js";
 dotenv.config();
 dbConnection();
 const app = express();
@@ -48,6 +49,10 @@ app.post("/customer/bill", generateCustomerBill);
 // wallet route
 app.get("/wallet", getWalletBalanceController);
 app.put("/wallet/:id", updateWalletBalanceController);
+
+// food route
+app.get("/foods", getFoodMenu);
+app.get("/food/:id", getFoodById);
 
 app.listen(PORT, () => {
   console.log(`server run at ${PORT}`);
