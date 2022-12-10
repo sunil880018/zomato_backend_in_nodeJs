@@ -1,6 +1,6 @@
 import Food from "../models/foods.js";
 
-const getFoodMenu = async (req, res) => {
+const getFoodMenuController = async (req, res) => {
   try {
     const foodMenu = await Food.find();
     return res.status(StatusCodes.OK).json({ foodMenu: foodMenu });
@@ -11,10 +11,10 @@ const getFoodMenu = async (req, res) => {
   }
 };
 
-const getFoodById = async (req, res) => {
+const getFoodByIdController = async (req, res) => {
   const { id } = req.params;
   try {
-    const food = await Food.findOne({ _id: id });
+    const food = await Food.findById({ _id: id });
     if (!food) {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -28,7 +28,7 @@ const getFoodById = async (req, res) => {
   }
 };
 
-const getFoodByName = async (req, res) => {
+const getFoodByNameController = async (req, res) => {
   const { name } = req.query;
   try {
     const foods = await Food.findOne({ name: name });
@@ -45,4 +45,4 @@ const getFoodByName = async (req, res) => {
   }
 };
 
-export { getFoodMenu, getFoodById, getFoodByName };
+export { getFoodMenuController, getFoodByIdController, getFoodByNameController };

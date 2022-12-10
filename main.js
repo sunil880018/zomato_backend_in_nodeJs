@@ -21,7 +21,16 @@ import cors from "cors";
 import { apiRequestLimiter } from "./middleware/apiRateLimiter.js";
 import { whitelist } from "./utils/ipWhiteList.js";
 import { getCustomerCache } from "./middleware/redisCache.js";
-import { getFoodById, getFoodMenu } from "./controllers/foodContoller.js";
+import {
+  getFoodByIdController,
+  getFoodByNameController,
+  getFoodMenuController,
+} from "./controllers/foodContoller.js";
+import {
+  getRestaurantByLocationController,
+  getRestaurantByNameController,
+  getRestaurantsController,
+} from "./controllers/restaurantController.js";
 dotenv.config();
 dbConnection();
 const app = express();
@@ -51,8 +60,15 @@ app.get("/wallet", getWalletBalanceController);
 app.put("/wallet/:id", updateWalletBalanceController);
 
 // food route
-app.get("/foods", getFoodMenu);
-app.get("/food/:id", getFoodById);
+app.get("/foods", getFoodMenuController);
+app.get("/food/:id", getFoodByIdController);
+app.get("/food", getFoodByNameController);
+
+// restaurant route
+
+app.get("/restaurants", getRestaurantsController);
+app.get("/restaurant", getRestaurantByNameController);
+app.get("/restaurant/:location", getRestaurantByLocationController);
 
 app.listen(PORT, () => {
   console.log(`server run at ${PORT}`);
