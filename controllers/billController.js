@@ -8,13 +8,13 @@ const getCustomerBill = async (req, res) => {
     if (!customerBill) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
-    return res.status(StatusCodes.OK).send({ bill: customerBill });
+    return res.status(StatusCodes.OK).json({ bill: customerBill });
   } catch (err) {
     return res
       .status(StatusCodes.NOT_FOUND)
-      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
   }
 };
 
@@ -28,11 +28,11 @@ const generateCustomerBill = async (req, res) => {
   };
   try {
     const responseBill = await Bill.create(billDetails);
-    return res.status(StatusCodes.CREATED).send({ data: responseBill });
+    return res.status(StatusCodes.CREATED).json({ data: responseBill });
   } catch (error) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+      .json({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
   }
 };
 export { getCustomerBill, generateCustomerBill };

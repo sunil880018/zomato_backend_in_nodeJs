@@ -1,7 +1,7 @@
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
 import Customer from "../models/customers.js";
 import Wallet from "../models/wallet.js";
-
+import { connectWithRedis } from "../database/redis.js";
 const createCustomer = async (req, res) => {
   const customer = {
     name: req.body.name,
@@ -13,22 +13,22 @@ const createCustomer = async (req, res) => {
     await Wallet.create({
       customerId: responseCustomer._id,
     });
-    return res.status(StatusCodes.CREATED).send({ data: responseCustomer });
+    return res.status(StatusCodes.CREATED).json({ data: responseCustomer });
   } catch (err) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+      .json({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
   }
 };
 
 const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
-    return res.status(StatusCodes.OK).send({ customers: customers });
+    return res.status(StatusCodes.OK).json({ customers: customers });
   } catch (err) {
     return res
       .status(StatusCodes.NOT_FOUND)
-      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
   }
 };
 
@@ -39,16 +39,39 @@ const getCustomerByName = async (req, res) => {
     if (!customer) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
-    return res.status(StatusCodes.OK).send({ customer: customer });
+    return res.status(StatusCodes.OK).json({ customer: customer });
   } catch (err) {
     return res
       .status(StatusCodes.NOT_FOUND)
-      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
   }
 };
 
+const getCustomerById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const customer = await Customer.findOne({ _id: id });
+    if (!customer) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+    }
+    // setting value in redis
+    const redis = connectWithRedis()
+    redis.set(customer._id, JSON.stringify(customer), "ex", 60); // expires in 60 seconds
+    // EX seconds -- Set the specified expire time, in seconds.
+    // PX milliseconds -- Set the specified expire time, in milliseconds.
+    // EXAT timestamp-seconds -- Set the specified Unix time at which the key will expire,
+    // NX -- Only set the key if it does not already exist.
+    return res.status(StatusCodes.OK).json({ customer: customer });
+  } catch (err) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+  }
+};
 
 // join two tables
 const getCustomerBalanceController = async (req, res) => {
@@ -60,12 +83,12 @@ const getCustomerBalanceController = async (req, res) => {
       .then((customerWalletBalance) => {
         return res
           .status(StatusCodes.OK)
-          .send({ customerWalletBalance: customerWalletBalance });
+          .json({ customerWalletBalance: customerWalletBalance });
       });
   } catch (error) {
     return res
       .status(StatusCodes.NOT_FOUND)
-      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
   }
 };
 
@@ -74,4 +97,5 @@ export {
   getCustomers,
   getCustomerByName,
   getCustomerBalanceController,
+  getCustomerById,
 };

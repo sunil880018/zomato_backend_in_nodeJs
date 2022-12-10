@@ -8,13 +8,13 @@ const getWalletBalanceController = async (req, res) => {
     if (!wallet) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
-    return res.status(StatusCodes.OK).send({ wallet: wallet });
+    return res.status(StatusCodes.OK).json({ wallet: wallet });
   } catch (error) {
     return res
       .status(StatusCodes.NOT_FOUND)
-      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
   }
 };
 
@@ -35,7 +35,7 @@ const updateWalletBalanceController = async (req, res) => {
     if (!customerWallet) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
     walletDetails.balance =
       parseFloat(walletDetails.balance) +
@@ -47,11 +47,11 @@ const updateWalletBalanceController = async (req, res) => {
     );
     return res
       .status(StatusCodes.ACCEPTED)
-      .send({ wallet: walletBalanceUpdated });
+      .json({ wallet: walletBalanceUpdated });
   } catch (error) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .send({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+      .json({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
   }
 };
 export { getWalletBalanceController, updateWalletBalanceController };
