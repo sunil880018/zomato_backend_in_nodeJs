@@ -2,9 +2,14 @@ import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import Wallet from "../models/wallet.js";
 
 const getWalletBalanceController = async (req, res) => {
-  const customerId = req.query.id;
+  const { id } = req.query;
   try {
-    const wallet = await Wallet.findOne({ customerId: customerId });
+    const wallet = await Wallet.findOne({ customerId: id });
+    if (!wallet) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+    }
     return res.status(StatusCodes.OK).send({ wallet: wallet });
   } catch (error) {
     return res
@@ -20,16 +25,21 @@ const updateWalletBalanceController = async (req, res) => {
   // route for query parameter ----------> app.put("/wallet", updateWalletBalanceController);
   const walletDetails = {
     customerId: req.params.id,
-    walletBalance: req.body.balance,
+    balance: req.body.balance,
   };
   try {
     const customerWallet = await Wallet.findOne({
       customerId: walletDetails.customerId,
     });
 
-    walletDetails.walletBalance =
-      parseFloat(walletDetails.walletBalance) +
-      parseFloat(customerWallet.walletBalance);
+    if (!customerWallet) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+    }
+    walletDetails.balance =
+      parseFloat(walletDetails.balance) +
+      parseFloat(customerWallet.balance);
     const walletBalanceUpdated = await Wallet.findByIdAndUpdate(
       { _id: customerWallet._id },
       { $set: walletDetails },

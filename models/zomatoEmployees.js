@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const zomatoEmployeeSchema = new Schema(
   {
-    employeeName: {
+    name: {
       type: String,
       trim: true,
       required: true,

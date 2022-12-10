@@ -4,7 +4,7 @@ import Wallet from "../models/wallet.js";
 
 const createCustomer = async (req, res) => {
   const customer = {
-    customerName: req.body.name,
+    name: req.body.name,
     mobile: req.body.mobile,
     address: req.body.address,
   };
@@ -33,9 +33,14 @@ const getCustomers = async (req, res) => {
 };
 
 const getCustomerByName = async (req, res) => {
-  const customerName = req.query.name;
+  const { name } = req.query;
   try {
-    const customer = await Customer.findOne({ customerName: customerName });
+    const customer = await Customer.findOne({ name: name });
+    if (!customer) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+    }
     return res.status(StatusCodes.OK).send({ customer: customer });
   } catch (err) {
     return res

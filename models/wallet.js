@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const walletSchema = new Schema(
   {
-    walletBalance: {
+    balance: {
       type: Schema.Types.Decimal128,
       default: 0.0,
     },

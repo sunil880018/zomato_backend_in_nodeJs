@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const restaurantSchema = new Schema(
   {
-    restaurantName: {
+    name: {
       type: String,
       trim: true,
       required: true,

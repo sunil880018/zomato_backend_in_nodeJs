@@ -2,9 +2,14 @@ import { StatusCodes } from "http-status-codes";
 import Bill from "../models/bill.js";
 
 const getCustomerBill = async (req, res) => {
-  const customerId = req.params.id;
+  const { id } = req.params;
   try {
-    const customerBill = await Bill.findOne({ customerId: customerId });
+    const customerBill = await Bill.findOne({ customerId: id });
+    if (!customerBill) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+    }
     return res.status(StatusCodes.OK).send({ bill: customerBill });
   } catch (err) {
     return res
