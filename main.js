@@ -4,6 +4,7 @@ import dbConnection from "./database/db.js";
 import bodyParser from "body-parser";
 import {
   createCustomer,
+  getCustomerBalanceController,
   getCustomerByName,
   getCustomers,
 } from "./controllers/customerController.js";
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 app.post("/customer", createCustomer);
 app.get("/customers", getCustomers);
 app.get("/customer", getCustomerByName);
+app.get("/customer/balance/:id",getCustomerBalanceController)
 
 // billing route
 app.get("/customer/bill/:customerId", getCustomerBill);

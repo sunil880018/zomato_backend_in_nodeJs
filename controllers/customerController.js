@@ -49,4 +49,29 @@ const getCustomerByName = async (req, res) => {
   }
 };
 
-export { createCustomer, getCustomers, getCustomerByName };
+
+// join two tables
+const getCustomerBalanceController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // .populate({path:"customerId",select:{name:1,mobile:1}}) ---> select name,mobile only
+    await Wallet.findOne({ customerId: id })
+      .populate("customerId")
+      .then((customerWalletBalance) => {
+        return res
+          .status(StatusCodes.OK)
+          .send({ customerWalletBalance: customerWalletBalance });
+      });
+  } catch (error) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .send({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+  }
+};
+
+export {
+  createCustomer,
+  getCustomers,
+  getCustomerByName,
+  getCustomerBalanceController,
+};
