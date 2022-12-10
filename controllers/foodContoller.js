@@ -28,4 +28,21 @@ const getFoodById = async (req, res) => {
   }
 };
 
-export { getFoodMenu, getFoodById };
+const getFoodByName = async (req, res) => {
+  const { name } = req.query;
+  try {
+    const foods = await Food.findOne({ name: name });
+    if (!foods) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+    }
+    return res.status(StatusCodes.OK).json({ foods: foods });
+  } catch (err) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+  }
+};
+
+export { getFoodMenu, getFoodById, getFoodByName };
