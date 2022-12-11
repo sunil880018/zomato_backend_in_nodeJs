@@ -1,0 +1,36 @@
+server{
+    listen 80;
+    server_name zomato-backend-app.com; # your-domain.com
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        location /customer {
+             proxy_pass http://127.0.0.1:3000$request_uri;
+             proxy_redirect off;
+        }
+        location /wallet {
+             proxy_pass http://127.0.0.1:3000$request_uri;
+             proxy_redirect off;
+        }
+        location /food {
+             proxy_pass http://127.0.0.1:3000$request_uri;
+             proxy_redirect off;
+        }
+    }
+}
+
+
+
+
+
+<!-- The above configuration has Nginx listening on port 80 on your-domain.com. The / is your Uniform Resource Identifier (URI) with the following properties:
+
+proxy_set_header, which sets the host header to be that of the Nginx server
+proxy_pass http, which instructs Nginx to proxy all requests matching the location pattern to an upstream (backend) server
+proxy_http_version, which converts the incoming connection to HTTP 1.1
+proxy_set_header Upgrade, which converts the proxied connection to type Upgrade because WebSockets only communicate on upgraded connections -->
+<!-- proxy_set_header Connection, which ensures the connection header value is U``pgrade -->
