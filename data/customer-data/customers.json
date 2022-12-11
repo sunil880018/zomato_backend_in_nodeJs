@@ -1,0 +1,67 @@
+[{
+  "_id": {
+    "$oid": "639546f82447dacd972d9116"
+  },
+  "name": "anita",
+  "mobile": "919876545712",
+  "address": {
+    "city": "jamshedpur",
+    "state": "Jharkhand",
+    "pincode": 453435
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670727416788"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670727416788"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639547142447dacd972d911a"
+  },
+  "name": "vikas",
+  "mobile": "919126545712",
+  "address": {
+    "city": "jamshedpur",
+    "state": "Jharkhand",
+    "pincode": 1211113
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670727444831"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670727444831"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639547382447dacd972d911e"
+  },
+  "name": "yogesh",
+  "mobile": "919126545710",
+  "address": {
+    "city": "faridabad",
+    "state": "haryana",
+    "pincode": 1211113
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670727480058"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670727480058"
+    }
+  },
+  "__v": 0
+}]

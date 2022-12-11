@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "63954ae8cc72f46cfcd45483"
+  },
+  "customer": {
+    "$oid": "639546f82447dacd972d9116"
+  },
+  "totalCost": {
+    "$numberDecimal": "30"
+  },
+  "discount": {
+    "$numberDecimal": "5"
+  },
+  "tax": {
+    "$numberDecimal": "2"
+  },
+  "amountToBePaid": {
+    "$numberDecimal": "23"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670728424572"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670728424572"
+    }
+  },
+  "__v": 0
+}]

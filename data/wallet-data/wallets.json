@@ -1,0 +1,64 @@
+[{
+  "_id": {
+    "$oid": "639546f82447dacd972d9118"
+  },
+  "balance": {
+    "$numberDecimal": "0"
+  },
+  "customer": {
+    "$oid": "639546f82447dacd972d9116"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670727416931"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670727416931"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639547142447dacd972d911c"
+  },
+  "balance": {
+    "$numberDecimal": "26"
+  },
+  "customer": {
+    "$oid": "639547142447dacd972d911a"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670727444851"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670728124958"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639547382447dacd972d9120"
+  },
+  "balance": {
+    "$numberDecimal": "0"
+  },
+  "customer": {
+    "$oid": "639547382447dacd972d911e"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670727480088"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670727480088"
+    }
+  },
+  "__v": 0
+}]
