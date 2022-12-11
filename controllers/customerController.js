@@ -102,12 +102,8 @@ const deleteCustomerByIdController = async (req, res) => {
         .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
     await Wallet.findByIdAndDelete({ _id: customerWallet._id });
-    const customer = await Customer.findByIdAndDelete({ _id: id });
-    if (!customer) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
-    }
+    await Customer.findByIdAndDelete({ _id: id });
+
     return res.status(StatusCodes.NO_CONTENT).json({});
   } catch (err) {
     return res
