@@ -4,6 +4,7 @@ import dbConnection from "./database/db.js";
 import bodyParser from "body-parser";
 import {
   createCustomerController,
+  deleteCustomerByIdController,
   getCustomerBalanceController,
   getCustomerByIdController,
   getCustomerByNameController,
@@ -46,8 +47,7 @@ app.use(apiRequestLimiter);
 app.post("/customer", cors(whitelist), createCustomerController);
 app.get("/customers", cors(whitelist), getCustomersController);
 app.get("/customer", cors(whitelist), getCustomerByNameController);
-
-
+app.delete("/customer/:id", cors(whitelist), deleteCustomerByIdController);
 // using redis cache
 app.get(
   "/customer/:id",
