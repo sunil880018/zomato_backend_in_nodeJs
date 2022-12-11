@@ -12,3 +12,14 @@ const whitelist = {
 };
 
 export { whitelist };
+
+
+// CORS stands for Cross-Origin Resource Sharing. It is a security policy that means only resources 
+// from the same domain, host, and port can interact with the API source. For example, if you try to make 
+// a fetch request to https://api.yelp.com/v3/businesses/search, you can't retrieve data from localhost:3000.
+// Only yelp.com would be able to retrieve data from it's server and any subdomains.
+
+// There are other situations where some applications need to fetch resources from different servers. 
+// This is where CORS comes into place. It enables other websites to access the servers that 
+// do not have the same domain, host or port. APIs that have Access-Control-Allow-Origin it 
+// means we can make fetch requests from any website.
