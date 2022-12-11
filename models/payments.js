@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const paymentSchema = new Schema(
   {
-    orderId: {
+    orderDetail: {
       type: Schema.Types.ObjectId,
       ref: "OrderDetails",
     },

@@ -22,7 +22,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"sunil\",\r\n    \"mobile\":\"919876545712\",\r\n    \"address\":{\r\n        \"city\":\"jamshedpur\",\r\n        \"state\":\"Jharkhand\",\r\n        \"pincode\":453435\r\n    }\r\n}",
+					"raw": "{\r\n    \"name\":\"anita\",\r\n    \"mobile\":\"919876545712\",\r\n    \"address\":{\r\n        \"city\":\"jamshedpur\",\r\n        \"state\":\"Jharkhand\",\r\n        \"pincode\":453435\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -47,14 +47,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"balance\":45\r\n}",
+					"raw": "{\r\n    \"balance\":18\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "localhost:3000/wallet/63930c8f56b1d665a382aece"
+				"url": "localhost:3000/wallet/639547142447dacd972d911a"
 			},
 			"response": []
 		},
@@ -83,7 +83,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/wallet?id=63930c8f56b1d665a382aece",
+					"raw": "localhost:3000/wallet?id=639547382447dacd972d911e",
 					"host": [
 						"localhost"
 					],
@@ -94,7 +94,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "63930c8f56b1d665a382aece"
+							"value": "639547382447dacd972d911e"
 						}
 					]
 				}
@@ -107,7 +107,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/customer?name=sunil",
+					"raw": "localhost:3000/customer?name=yogesh",
 					"host": [
 						"localhost"
 					],
@@ -118,10 +118,55 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "sunil"
+							"value": "yogesh"
 						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/customer/639547142447dacd972d911a",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:3000/customer/639547142447dacd972d911a"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/customer/bill",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"639546f82447dacd972d9116\",\r\n    \"cost\":30,\r\n    \"discount\":5,\r\n    \"tax\":2,\r\n    \"total\":23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3000/customer/bill"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/customer/bill/639546f82447dacd972d9116",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:3000/customer/bill/639546f82447dacd972d9116"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/customer/balance/639547142447dacd972d911a",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:3000/customer/balance/639547142447dacd972d911a"
 			},
 			"response": []
 		}

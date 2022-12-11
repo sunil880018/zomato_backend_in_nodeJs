@@ -1,10 +1,10 @@
-import { StatusCodes } from "http-status-codes";
+import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import Bill from "../models/bill.js";
 
-const getCustomerBill = async (req, res) => {
+const getCustomerBillController = async (req, res) => {
   const { id } = req.params;
   try {
-    const customerBill = await Bill.findOne({ customerId: id });
+    const customerBill = await Bill.findOne({ customer: id });
     if (!customerBill) {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -18,9 +18,9 @@ const getCustomerBill = async (req, res) => {
   }
 };
 
-const generateCustomerBill = async (req, res) => {
+const generateCustomerBillController = async (req, res) => {
   const billDetails = {
-    customerId: req.body.id,
+    customer: req.body.id,
     totalCost: parseFloat(req.body.cost),
     discount: parseFloat(req.body.discount),
     tax: parseFloat(req.body.tax),
@@ -35,4 +35,4 @@ const generateCustomerBill = async (req, res) => {
       .json({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
   }
 };
-export { getCustomerBill, generateCustomerBill };
+export { getCustomerBillController, generateCustomerBillController };

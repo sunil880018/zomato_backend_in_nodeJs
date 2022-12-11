@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const BillSchema = new Schema(
   {
-    customerId: {
+    customer: { // one to one relationship with customer table
       type: Schema.Types.ObjectId,
       ref: "Customer",
     },

@@ -1,0 +1,29 @@
+version: "1"   # docker compose version
+
+services:      # can have multiple container
+ zomato-backend-app:     # container name
+  build: .     # build the Dockerfile which is inside the current directory , dot represent current directory
+  ports:       # zomato-backend-app container ports, It can be a list of array,- represent list
+  - "3000:3000"  # <localhost port>:<container port>
+  volumes:     # %cd% or ${pwd}, you have seen in previous
+    - ./:/app
+    - /app/node_modules # using container files node_modules, not project node_modules,you have seen in previous file
+  environment:         # environment variables for port define
+    - PORT = 3000   
+  # env_file: # importing .env file variables
+  #   - ./.env
+
+  depends_on: # our project depend on mongo container
+   - mongo
+
+
+ mongo:  # using mongo db container, this already made image so no need to build, port 
+  image: mongo
+  environment:
+   - MONGO_INITDB_ROOT_USERNAME=sunil
+   - MONGO_INITDB_ROOT_PASSWORD=mypassword
+  volumes:  # making data/db files in mongo container
+   - mongo-db:/data/db
+
+volumes:  # using data/db file 
+ mongo-db:

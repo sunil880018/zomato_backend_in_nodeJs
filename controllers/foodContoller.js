@@ -45,4 +45,8 @@ const getFoodByNameController = async (req, res) => {
   }
 };
 
-export { getFoodMenuController, getFoodByIdController, getFoodByNameController };
+export {
+  getFoodMenuController,
+  getFoodByIdController,
+  getFoodByNameController,
+};

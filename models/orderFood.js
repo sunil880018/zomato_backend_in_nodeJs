@@ -1,19 +1,19 @@
 import { Schema, model } from "mongoose";
 const orderFoodSchema = new Schema(
   {
-    orderId: {
+    orderDetails: {
       type: Schema.Types.ObjectId,
       ref: "OrderDetails",
     },
-    customerId: {
+    customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
     },
-    restaurantId: {
+    restaurant: {
       type: Schema.Types.ObjectId,
       ref: "Restaurant",
     },
-    foodId: {
+    food: {
       type: Schema.Types.ObjectId,
       ref: "Food",
     },

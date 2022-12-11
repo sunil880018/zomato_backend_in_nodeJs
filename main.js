@@ -3,15 +3,15 @@ import dotenv from "dotenv";
 import dbConnection from "./database/db.js";
 import bodyParser from "body-parser";
 import {
-  createCustomer,
+  createCustomerController,
   getCustomerBalanceController,
-  getCustomerById,
-  getCustomerByName,
-  getCustomers,
+  getCustomerByIdController,
+  getCustomerByNameController,
+  getCustomersController,
 } from "./controllers/customerController.js";
 import {
-  generateCustomerBill,
-  getCustomerBill,
+  generateCustomerBillController,
+  getCustomerBillController,
 } from "./controllers/billController.js";
 import {
   getWalletBalanceController,
@@ -43,17 +43,23 @@ app.use(bodyParser.json());
 app.use(apiRequestLimiter);
 
 // customer route
-app.post("/customer", cors(whitelist), createCustomer);
-app.get("/customers", cors(whitelist), getCustomers);
-app.get("/customer", cors(whitelist), getCustomerByName);
+app.post("/customer", cors(whitelist), createCustomerController);
+app.get("/customers", cors(whitelist), getCustomersController);
+app.get("/customer", cors(whitelist), getCustomerByNameController);
+
 
 // using redis cache
-app.get("/customer/:id", cors(whitelist), getCustomerCache, getCustomerById);
+app.get(
+  "/customer/:id",
+  cors(whitelist),
+  getCustomerCache,
+  getCustomerByIdController
+);
 app.get("/customer/balance/:id", cors(whitelist), getCustomerBalanceController);
 
 // billing route
-app.get("/customer/bill/:customerId", getCustomerBill);
-app.post("/customer/bill", generateCustomerBill);
+app.post("/customer/bill", generateCustomerBillController);
+app.get("/customer/bill/:id", getCustomerBillController);
 
 // wallet route
 app.get("/wallet", getWalletBalanceController);
@@ -61,8 +67,8 @@ app.put("/wallet/:id", updateWalletBalanceController);
 
 // food route
 app.get("/foods", getFoodMenuController);
-app.get("/food/:id", getFoodByIdController);
 app.get("/food", getFoodByNameController);
+app.get("/food/:id", getFoodByIdController);
 
 // restaurant route
 

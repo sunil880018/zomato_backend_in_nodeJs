@@ -4,7 +4,7 @@ import Wallet from "../models/wallet.js";
 const getWalletBalanceController = async (req, res) => {
   const { id } = req.query;
   try {
-    const wallet = await Wallet.findOne({ customerId: id });
+    const wallet = await Wallet.findOne({ customer: id });
     if (!wallet) {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -24,12 +24,12 @@ const updateWalletBalanceController = async (req, res) => {
   // route for path parameter -------> app.put("/wallet/:id", updateWalletBalanceController);
   // route for query parameter ----------> app.put("/wallet", updateWalletBalanceController);
   const walletDetails = {
-    customerId: req.params.id,
+    customer: req.params.id,
     balance: req.body.balance,
   };
   try {
     const customerWallet = await Wallet.findOne({
-      customerId: walletDetails.customerId,
+      customer: walletDetails.customer,
     });
 
     if (!customerWallet) {
@@ -38,8 +38,7 @@ const updateWalletBalanceController = async (req, res) => {
         .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
     walletDetails.balance =
-      parseFloat(walletDetails.balance) +
-      parseFloat(customerWallet.balance);
+      parseFloat(walletDetails.balance) + parseFloat(customerWallet.balance);
     const walletBalanceUpdated = await Wallet.findByIdAndUpdate(
       { _id: customerWallet._id },
       { $set: walletDetails },

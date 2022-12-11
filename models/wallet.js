@@ -5,7 +5,7 @@ const walletSchema = new Schema(
       type: Schema.Types.Decimal128,
       default: 0.0,
     },
-    customerId: {
+    customer: { // one to one relationship with customer table
       type: Schema.Types.ObjectId,
       required: true,
       ref: "Customer",
