@@ -19,7 +19,7 @@ const orderDetailSchema = new Schema(
       required: true,
     },
     deliveryTime: {
-      timestamps: true,
+      timestamps: false,
     },
   },
   { timestamps: true } //to include createdAt and updatedAt

@@ -1,7 +1,11 @@
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
 import Customer from "../models/customers.js";
 import Wallet from "../models/wallet.js";
+import Bill from "../models/bill.js";
 import { connectWithRedis } from "../database/redis.js";
+import OrderDetails from "../models/orderDetails.js";
+import OrderFood from "../models/orderFood.js";
+
 const createCustomerController = async (req, res) => {
   const customer = {
     name: req.body.name,
@@ -77,7 +81,6 @@ const getCustomerByIdController = async (req, res) => {
 const getCustomerBalanceController = async (req, res) => {
   const { id } = req.params;
   try {
-    // .populate({path:"customer",select:{name:1,mobile:1}}) ---> select name,mobile only
     await Wallet.findOne({ customer: id })
       .populate("customer")
       .then((customerWalletBalance) => {
@@ -95,15 +98,29 @@ const getCustomerBalanceController = async (req, res) => {
 const deleteCustomerByIdController = async (req, res) => {
   const { id } = req.params;
   try {
-    const customerWallet = await Wallet.findOne({ customer: id });
-    if (!customerWallet) {
+    const customerDetails = await Customer.findById({ _id: id });
+    if (!customerDetails) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
     }
+    const customerWallet = await Wallet.findOne({ customer: id });
     await Wallet.findByIdAndDelete({ _id: customerWallet._id });
-    await Customer.findByIdAndDelete({ _id: id });
 
+    const customerBillDetails = await Bill.findOne({ customer: id });
+    if (customerBillDetails) {
+      await Bill.findOneAndDelete({ _id: customerBillDetails._id });
+    }
+    const customerOrderDetails = OrderDetails.findOne({ customer: id });
+    if (customerOrderDetails) {
+      await OrderDetails.findByIdAndDelete({ _id: customerOrderDetails._id });
+    }
+    const customerOrderFood = OrderFood.findOne({ customer: id });
+    if (customerOrderFood) {
+      await OrderFood.findByIdAndDelete({ _id: customerOrderFood._id });
+    }
+
+    await Customer.findByIdAndDelete({ _id: id });
     return res.status(StatusCodes.NO_CONTENT).json({});
   } catch (err) {
     return res
