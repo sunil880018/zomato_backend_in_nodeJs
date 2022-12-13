@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+    - run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - run: docker build -t zomato-app .
+    - run: docker tag zomato-app $DOCKER_USERNAME/zomato-app:latest
+    - run: docker push $DOCKER_USERNAME/zomato-app:latest
+      
