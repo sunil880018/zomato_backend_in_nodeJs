@@ -7,4 +7,4 @@ const OrderStatus = {
   WAITING_FOR_PAYMEND: "waiting for payment",
 };
 
-export default OrderStatus;
+export { OrderStatus };

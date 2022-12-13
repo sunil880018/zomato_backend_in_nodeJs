@@ -1,5 +1,5 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
-import Bill from "../models/bill.js";
+import { Bill } from "../models/bill.js";
 
 const getCustomerBillController = async (req, res) => {
   const { id } = req.params;
@@ -27,7 +27,7 @@ const getCustomerBillController = async (req, res) => {
 };
 
 const generateCustomerBillController = async (req, res) => {
-  const billDetails = {
+  const billDetailsRequest = {
     customer: req.body.id,
     totalCost: parseFloat(req.body.cost),
     discount: parseFloat(req.body.discount),
@@ -35,7 +35,7 @@ const generateCustomerBillController = async (req, res) => {
     amountToBePaid: parseFloat(req.body.total),
   };
   try {
-    const responseBill = await Bill.create(billDetails);
+    const responseBill = await Bill.create(billDetailsRequest);
     return res.status(StatusCodes.CREATED).json({ data: responseBill });
   } catch (error) {
     return res

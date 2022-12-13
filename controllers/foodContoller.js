@@ -1,9 +1,9 @@
-import Food from "../models/foods.js";
+import { Food } from "../models/foods.js";
 
 const getFoodMenuController = async (req, res) => {
   try {
-    const foodMenu = await Food.find();
-    return res.status(StatusCodes.OK).json({ foodMenu: foodMenu });
+    const ListOfFoodMenu = await Food.find();
+    return res.status(StatusCodes.OK).json({ ListOfFoodMenu: ListOfFoodMenu });
   } catch (err) {
     return res
       .status(StatusCodes.NOT_FOUND)

@@ -5,7 +5,8 @@ const walletSchema = new Schema(
       type: Schema.Types.Decimal128,
       default: 0.0,
     },
-    customer: { // one to one relationship with customer table
+    customer: {
+      // one to one relationship with customer table
       type: Schema.Types.ObjectId,
       required: true,
       ref: "Customer",
@@ -16,4 +17,4 @@ const walletSchema = new Schema(
 );
 
 const Wallet = model("Wallet", walletSchema);
-export default Wallet;
+export { Wallet };

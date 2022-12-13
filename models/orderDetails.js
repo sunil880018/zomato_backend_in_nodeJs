@@ -26,4 +26,4 @@ const orderDetailSchema = new Schema(
 );
 
 const OrderDetails = model("OrderDetails", orderDetailSchema);
-export default OrderDetails;
+export { OrderDetails };

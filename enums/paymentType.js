@@ -6,4 +6,4 @@ const paymentType = {
   PAYTM: "paytm",
 };
 
-export default paymentType;
+export { paymentType };

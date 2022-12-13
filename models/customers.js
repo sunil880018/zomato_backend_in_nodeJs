@@ -30,4 +30,4 @@ const CustomerSchema = new Schema(
   { timestamps: true } //to include createdAt and updatedAt
 );
 const Customer = model("Customer", CustomerSchema);
-export default Customer;
+export { Customer };

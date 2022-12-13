@@ -1,10 +1,10 @@
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
-import Customer from "../models/customers.js";
-import Wallet from "../models/wallet.js";
-import Bill from "../models/bill.js";
+import { Customer } from "../models/customers.js";
+import { Wallet } from "../models/wallet.js";
+import { Bill } from "../models/bill.js";
 import { connectWithRedis } from "../database/redis.js";
-import OrderDetails from "../models/orderDetails.js";
-import OrderFood from "../models/orderFood.js";
+import { OrderDetails } from "../models/orderDetails.js";
+import { OrderFood } from "../models/orderFood.js";
 
 const createCustomerController = async (req, res) => {
   const customer = {
@@ -27,8 +27,8 @@ const createCustomerController = async (req, res) => {
 
 const getCustomersController = async (req, res) => {
   try {
-    const customers = await Customer.find();
-    return res.status(StatusCodes.OK).json({ customers: customers });
+    const listOfCustomers = await Customer.find();
+    return res.status(StatusCodes.OK).json({ customers: listOfCustomers });
   } catch (err) {
     return res
       .status(StatusCodes.NOT_FOUND)

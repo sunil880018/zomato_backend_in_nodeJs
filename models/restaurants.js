@@ -21,4 +21,4 @@ const restaurantSchema = new Schema(
 );
 
 const Restaurant = model("Restaurant", restaurantSchema);
-export default Restaurant;
+export { Restaurant };

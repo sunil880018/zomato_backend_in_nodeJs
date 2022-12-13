@@ -1,5 +1,5 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
-import Wallet from "../models/wallet.js";
+import { Wallet } from "../models/wallet.js";
 
 const getWalletBalanceController = async (req, res) => {
   const { id } = req.query;

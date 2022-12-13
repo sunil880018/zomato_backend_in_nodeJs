@@ -14,4 +14,4 @@ function dbConnection() {
   );
 }
 
-export default dbConnection;
+export { dbConnection };

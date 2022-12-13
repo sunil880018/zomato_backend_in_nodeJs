@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
 const BillSchema = new Schema(
   {
-    customer: { // one to one relationship with customer table
+    customer: {
+      // one to one relationship with customer table
       type: Schema.Types.ObjectId,
       ref: "Customer",
     },
@@ -30,4 +31,4 @@ const BillSchema = new Schema(
 );
 
 const Bill = model("Bill", BillSchema);
-export default Bill;
+export { Bill };

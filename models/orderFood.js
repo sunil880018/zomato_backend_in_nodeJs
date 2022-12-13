@@ -27,4 +27,4 @@ const orderFoodSchema = new Schema(
 );
 
 const OrderFood = model("OrderFood", orderFoodSchema);
-export default OrderFood;
+export { OrderFood };

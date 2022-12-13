@@ -5,4 +5,4 @@ const paymentStatus = {
   TIMEOUT: "timeout",
 };
 
-export default paymentStatus;
+export { paymentStatus };

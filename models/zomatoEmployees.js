@@ -22,4 +22,4 @@ const zomatoEmployeeSchema = new Schema(
 );
 
 const ZomatoEmployee = model("ZomatoEmployee", zomatoEmployeeSchema);
-export default ZomatoEmployee;
+export { ZomatoEmployee };
