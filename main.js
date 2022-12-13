@@ -21,7 +21,7 @@ import {
 import cors from "cors";
 import { apiRequestLimiter } from "./middleware/apiRateLimiter.js";
 import { whitelist } from "./utils/ipWhiteList.js";
-import { getCustomerCache } from "./middleware/redisCache.js";
+import { getCustomerByIdControllerCache } from "./middleware/redisCache.js";
 import {
   getFoodByIdController,
   getFoodByNameController,
@@ -52,7 +52,7 @@ app.delete("/customer/:id", cors(whitelist), deleteCustomerByIdController);
 app.get(
   "/customer/:id",
   cors(whitelist),
-  getCustomerCache,
+  getCustomerByIdControllerCache,
   getCustomerByIdController
 );
 app.get("/customer/balance/:id", cors(whitelist), getCustomerBalanceController);

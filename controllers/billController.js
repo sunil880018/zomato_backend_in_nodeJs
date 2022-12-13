@@ -1,6 +1,5 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import Bill from "../models/bill.js";
-import Customer from "../models/customers.js";
 
 const getCustomerBillController = async (req, res) => {
   const { id } = req.params;
@@ -63,6 +62,5 @@ const generateCustomerBillController = async (req, res) => {
 // }).catch((err)=>{
 //   res.json({err})
 // })
-
 
 export { getCustomerBillController, generateCustomerBillController };
