@@ -15,7 +15,7 @@ const getRestaurantByLocationController = async (req, res) => {
   const { location } = req.params;
   try {
     if (!location) {
-      throw new BadRequestError("Please location");
+      throw new BadRequestError("Please provide location");
     }
     const restaurants = await Restaurant.findOne({ location: location });
     if (!restaurants) {
@@ -38,7 +38,7 @@ const getRestaurantByNameController = async (req, res) => {
   const { name } = req.query;
   try {
     if (!name) {
-      throw new BadRequestError("Please name");
+      throw new BadRequestError("Please provide name");
     }
     const restaurants = await Restaurant.findOne({ name: name });
     if (!restaurants) {

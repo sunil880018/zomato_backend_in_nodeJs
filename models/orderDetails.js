@@ -16,7 +16,8 @@ const orderDetailSchema = new Schema(
     orderStatus: {
       type: String,
       trime: true,
-      required: true,
+      enum: ['pending', 'placed', 'delivered', 'cancelled','out-for-deleivery'],
+      default: 'pending',
     },
     deliveryTime: {
       timestamps: false,

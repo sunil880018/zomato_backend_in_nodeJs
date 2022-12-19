@@ -39,7 +39,7 @@ const getFoodByNameController = async (req, res) => {
   const { name } = req.query;
   try {
     if (!name) {
-      throw new BadRequestError("Please name");
+      throw new BadRequestError("Please provide name");
     }
     const foods = await Food.findOne({ name: name });
     if (!foods) {

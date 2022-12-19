@@ -13,7 +13,8 @@ const paymentSchema = new Schema(
     paymentStatus: {
       type: String,
       trim: true,
-      required: true,
+      enum: ['pending', 'approved', 'declined', 'timeout'],
+      default: 'pending',
     },
     amount: {
       type: Schema.Types.Decimal128,

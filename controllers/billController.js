@@ -1,6 +1,6 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import { Bill } from "../models/bill.js";
-import { BadRequestError, NotFoundError } from "../errors/index.js";
+import { BadRequestError} from "../errors/index.js";
 const getCustomerBillController = async (req, res) => {
   const { id } = req.params;
   try {

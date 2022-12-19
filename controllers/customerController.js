@@ -41,9 +41,7 @@ const getCustomerByNameController = async (req, res) => {
     if (!name) {
       throw new BadRequestError("Please provide name");
     }
-
     const customer = await Customer.findOne({ name: name });
-
     if (!customer) {
       throw new NotFoundError("Not Found!");
     }

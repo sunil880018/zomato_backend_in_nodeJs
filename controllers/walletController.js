@@ -37,7 +37,6 @@ const updateWalletBalanceController = async (req, res) => {
     const customerWallet = await Wallet.findOne({
       customer: id,
     });
-
     if (!customerWallet) {
       throw new NotFoundError("Not Found!");
     }
