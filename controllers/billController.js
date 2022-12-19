@@ -1,9 +1,12 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import { Bill } from "../models/bill.js";
-
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 const getCustomerBillController = async (req, res) => {
   const { id } = req.params;
   try {
+    if (!id) {
+      throw new BadRequestError("Please provide id");
+    }
     await Bill.findOne({ customer: id })
       .populate({
         path: "customer",
@@ -19,10 +22,10 @@ const getCustomerBillController = async (req, res) => {
           .status(StatusCodes.NOT_FOUND)
           .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
       });
-  } catch (err) {
+  } catch (error) {
     return res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: error.message, statusCode: error.statusCode });
   }
 };
 

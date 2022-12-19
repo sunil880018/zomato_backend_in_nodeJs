@@ -32,6 +32,7 @@ import {
   getRestaurantsController,
 } from "./controllers/restaurantController.js";
 import { CONFIG } from "./config/config.js";
+import { NotFound } from "./middleware/notFound.js";
 dbConnection();
 const app = express();
 const PORT = CONFIG.PORT;
@@ -74,6 +75,8 @@ app.get("/food/:id", getFoodByIdController);
 app.get("/restaurants", getRestaurantsController);
 app.get("/restaurant", getRestaurantByNameController);
 app.get("/restaurant/:location", getRestaurantByLocationController);
+
+app.use(NotFound);
 
 app.listen(PORT, () => {
   console.log(`server run at ${PORT}`);

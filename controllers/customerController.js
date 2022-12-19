@@ -5,23 +5,22 @@ import { Bill } from "../models/bill.js";
 import { connectWithRedis } from "../database/redis.js";
 import { OrderDetails } from "../models/orderDetails.js";
 import { OrderFood } from "../models/orderFood.js";
-
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 const createCustomerController = async (req, res) => {
-  const customer = {
-    name: req.body.name,
-    mobile: req.body.mobile,
-    address: req.body.address,
-  };
+  const { name, mobile, address } = req.body;
   try {
-    const responseCustomer = await Customer.create(customer);
+    if (!name || !mobile || !address) {
+      throw new BadRequestError("Please provide all the values");
+    }
+    const responseCustomer = await Customer.create({ name, mobile, address });
     await Wallet.create({
       customer: responseCustomer._id,
     });
     return res.status(StatusCodes.CREATED).json({ data: responseCustomer });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+      .json({ error: error.message, statusCode: error.statusCode });
   }
 };
 
@@ -29,7 +28,7 @@ const getCustomersController = async (req, res) => {
   try {
     const listOfCustomers = await Customer.find();
     return res.status(StatusCodes.OK).json({ customers: listOfCustomers });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(StatusCodes.NOT_FOUND)
       .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
@@ -39,28 +38,37 @@ const getCustomersController = async (req, res) => {
 const getCustomerByNameController = async (req, res) => {
   const { name } = req.query;
   try {
+    if (!name) {
+      throw new BadRequestError("Please provide name");
+    }
+
     const customer = await Customer.findOne({ name: name });
+
     if (!customer) {
+      throw new NotFoundError("Not Found!");
+    }
+    return res.status(StatusCodes.OK).json({ customer });
+  } catch (error) {
+    if (error.statusCode === 404) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+        .json({ error: error.message, statusCode: error.statusCode });
     }
-    return res.status(StatusCodes.OK).json({ customer: customer });
-  } catch (err) {
     return res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: error.message, statusCode: error.statusCode });
   }
 };
 
 const getCustomerByIdController = async (req, res) => {
   const { id } = req.params;
   try {
+    if (!id) {
+      throw new BadRequestError("Please provide id");
+    }
     const customer = await Customer.findOne({ _id: id });
     if (!customer) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      throw new NotFoundError("Not Found!");
     }
     // setting value in redis
     const redis = connectWithRedis();
@@ -69,11 +77,16 @@ const getCustomerByIdController = async (req, res) => {
     // PX milliseconds -- Set the specified expire time, in milliseconds.
     // EXAT timestamp-seconds -- Set the specified Unix time at which the key will expire,
     // NX -- Only set the key if it does not already exist.
-    return res.status(StatusCodes.OK).json({ customer: customer });
-  } catch (err) {
+    return res.status(StatusCodes.OK).json({ customer });
+  } catch (error) {
+    if (error.statusCode === 404) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: error.message, statusCode: error.statusCode });
+    }
     return res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: error.message, statusCode: error.statusCode });
   }
 };
 
@@ -81,30 +94,40 @@ const getCustomerByIdController = async (req, res) => {
 const getCustomerBalanceController = async (req, res) => {
   const { id } = req.params;
   try {
+    if (!id) {
+      throw new BadRequestError("Please provide id");
+    }
     await Wallet.findOne({ customer: id })
       .populate("customer")
       .then((customerWalletBalance) => {
-        return res
-          .status(StatusCodes.OK)
-          .json({ customerWalletBalance: customerWalletBalance });
+        return res.status(StatusCodes.OK).json({ customerWalletBalance });
       });
   } catch (error) {
+    if (error.statusCode === 400) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: error.message, statusCode: error.statusCode });
+    }
     return res
       .status(StatusCodes.NOT_FOUND)
-      .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      .json({ error: error.message, statusCode: error.statusCode });
   }
 };
 
 const deleteCustomerByIdController = async (req, res) => {
   const { id } = req.params;
   try {
+    if (!id) {
+      throw new BadRequestError("Please provide id");
+    }
     const customerDetails = await Customer.findById({ _id: id });
     if (!customerDetails) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) });
+      throw new NotFoundError("Not Found!");
     }
     const customerWallet = await Wallet.findOne({ customer: id });
+    if (!customerDetails) {
+      throw new NotFoundError("Not Found!");
+    }
     await Wallet.findByIdAndDelete({ _id: customerWallet._id });
 
     const customerBillDetails = await Bill.findOne({ customer: id });
@@ -121,11 +144,16 @@ const deleteCustomerByIdController = async (req, res) => {
     }
 
     await Customer.findByIdAndDelete({ _id: id });
-    return res.status(StatusCodes.NO_CONTENT).json({});
-  } catch (err) {
+    return res.status(StatusCodes.OK).json();
+  } catch (error) {
+    if (error.statusCode === 404) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: error.message, statusCode: error.statusCode });
+    }
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ error: getReasonPhrase(StatusCodes.BAD_REQUEST) });
+      .json({ error: error.message, statusCode: error.statusCode });
   }
 };
 
