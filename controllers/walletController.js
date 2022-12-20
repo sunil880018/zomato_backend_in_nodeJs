@@ -9,7 +9,7 @@ const getWalletBalanceController = async (req, res) => {
     }
     const wallet = await Wallet.findOne({ customer: id });
     if (!wallet) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`wallet with ${id} id Not Found!`);
     }
     return res.status(StatusCodes.OK).json({ wallet: wallet });
   } catch (error) {
@@ -38,7 +38,7 @@ const updateWalletBalanceController = async (req, res) => {
       customer: id,
     });
     if (!customerWallet) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`wallet with ${id} id Not Found!`);
     }
     walletDetails.balance =
       parseFloat(walletDetails.balance) + parseFloat(customerWallet.balance);

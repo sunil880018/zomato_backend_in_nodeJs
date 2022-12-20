@@ -20,7 +20,7 @@ const getFoodByIdController = async (req, res) => {
     }
     const food = await Food.findById({ _id: id });
     if (!food) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`food with ${id} id Not Found!`);
     }
     return res.status(StatusCodes.OK).json({ food });
   } catch (error) {
@@ -43,7 +43,7 @@ const getFoodByNameController = async (req, res) => {
     }
     const foods = await Food.findOne({ name: name });
     if (!foods) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`food with ${name} name Not Found!`);
     }
     return res.status(StatusCodes.OK).json({ foods });
   } catch (error) {

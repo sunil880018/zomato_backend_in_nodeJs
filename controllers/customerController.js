@@ -16,7 +16,7 @@ const createCustomerController = async (req, res) => {
     await Wallet.create({
       customer: responseCustomer._id,
     });
-    return res.status(StatusCodes.CREATED).json({ data: responseCustomer });
+    return res.status(StatusCodes.CREATED).json({ responseCustomer });
   } catch (error) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -27,7 +27,7 @@ const createCustomerController = async (req, res) => {
 const getCustomersController = async (req, res) => {
   try {
     const listOfCustomers = await Customer.find();
-    return res.status(StatusCodes.OK).json({ customers: listOfCustomers });
+    return res.status(StatusCodes.OK).json({ listOfCustomers });
   } catch (error) {
     return res
       .status(StatusCodes.NOT_FOUND)
@@ -43,7 +43,7 @@ const getCustomerByNameController = async (req, res) => {
     }
     const customer = await Customer.findOne({ name: name });
     if (!customer) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`customer with ${name} name Not Found!`);
     }
     return res.status(StatusCodes.OK).json({ customer });
   } catch (error) {
@@ -66,7 +66,7 @@ const getCustomerByIdController = async (req, res) => {
     }
     const customer = await Customer.findOne({ _id: id });
     if (!customer) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`customer with ${id} id Not Found!`);
     }
     // setting value in redis
     const redis = connectWithRedis();
@@ -120,11 +120,11 @@ const deleteCustomerByIdController = async (req, res) => {
     }
     const customerDetails = await Customer.findById({ _id: id });
     if (!customerDetails) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`customer with ${id} id Not Found!`);
     }
     const customerWallet = await Wallet.findOne({ customer: id });
     if (!customerDetails) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`customer with ${id} id Not Found!`);
     }
     await Wallet.findByIdAndDelete({ _id: customerWallet._id });
 

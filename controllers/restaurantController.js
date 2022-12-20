@@ -19,7 +19,7 @@ const getRestaurantByLocationController = async (req, res) => {
     }
     const restaurants = await Restaurant.findOne({ location: location });
     if (!restaurants) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`restaurant with ${location} location Not Found!`);
     }
     return res.status(StatusCodes.OK).json({ restaurants });
   } catch (error) {
@@ -42,7 +42,7 @@ const getRestaurantByNameController = async (req, res) => {
     }
     const restaurants = await Restaurant.findOne({ name: name });
     if (!restaurants) {
-      throw new NotFoundError("Not Found!");
+      throw new NotFoundError(`restaurant with ${name} name Not Found!`);
     }
     return res.status(StatusCodes.OK).json({ restaurants });
   } catch (error) {

@@ -15,7 +15,7 @@ const getCustomerBillController = async (req, res) => {
       .then((customerBillDetails) => {
         return res
           .status(StatusCodes.OK)
-          .json({ customerBillDetails: customerBillDetails });
+          .json({ customerBillDetails });
       })
       .catch(() => {
         return res
@@ -39,7 +39,7 @@ const generateCustomerBillController = async (req, res) => {
   };
   try {
     const responseBill = await Bill.create(billDetailsRequest);
-    return res.status(StatusCodes.CREATED).json({ data: responseBill });
+    return res.status(StatusCodes.CREATED).json({ responseBill });
   } catch (error) {
     return res
       .status(StatusCodes.BAD_REQUEST)
