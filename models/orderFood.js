@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { foodSchema } from "./foods.js";
 const orderFoodSchema = new Schema(
   {
     orderDetails: {
@@ -13,14 +14,10 @@ const orderFoodSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Restaurant",
     },
-    food: {
-      type: Schema.Types.ObjectId,
-      ref: "Food",
-    },
+    food: [foodSchema], // one to many relationship
     quantity: {
       type: Number,
-      required: true,
-      minLength: 1,
+      default: 1,
     },
   },
   { timestamps: true } //to include createdAt and updatedAt
@@ -28,3 +25,7 @@ const orderFoodSchema = new Schema(
 
 const OrderFood = model("OrderFood", orderFoodSchema);
 export { OrderFood };
+
+
+// const food  = Food.create({name});
+// orderFood.food.push(food._id);
