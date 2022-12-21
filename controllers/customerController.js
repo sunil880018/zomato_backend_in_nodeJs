@@ -26,7 +26,10 @@ const createCustomerController = async (req, res) => {
 
 const getCustomersController = async (req, res) => {
   try {
-    const listOfCustomers = await Customer.find();
+    const listOfCustomers = await Customer.find(
+      {},
+      { name: 1, mobile: 1, address: { state: 1 } } // select name,mobile,address.state only  , 1 means select, 0 means not select
+    );
     return res.status(StatusCodes.OK).json({ listOfCustomers });
   } catch (error) {
     return res
@@ -41,7 +44,7 @@ const getCustomerByNameController = async (req, res) => {
     if (!name) {
       throw new BadRequestError("Please provide name");
     }
-    const customer = await Customer.findOne({ name: name });
+    const customer = await Customer.findOne({ name: name }).sort({ name: 1 }); // 1 means sort in ascending order, -1 for descending order
     if (!customer) {
       throw new NotFoundError(`customer with ${name} name Not Found!`);
     }

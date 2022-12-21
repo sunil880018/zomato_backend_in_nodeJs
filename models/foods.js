@@ -15,4 +15,4 @@ const foodSchema = new Schema(
 );
 
 const Food = model("Food", foodSchema);
-export { Food };
+export { Food ,foodSchema};
